@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
+/* ===== TOKENS DE DISEÑO ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Fondos */
+  --bg:      #08080d;
+  --bg2:     #0e0e16;
+  --surface:  #11111c;
+  --surface2: #181825;
+
+  /* Bordes */
+  --border:  #22223a;
+  --border2: #2d2d4a;
+
+  /* Acento principal — Lima neón */
+  --accent:      #d4f53c;
+  --accent-glow: rgba(212,245,60,0.15);
+  --accent-dim:  rgba(212,245,60,0.06);
+
+  /* Texto */
+  --text:  #eeeef8;
+  --text2: #9898b8;
+  --text3: #55556a;
+
+  /* Semáforo */
+  --red:    #ff4757;
+  --green:  #2ed573;
+  --yellow: #ffa502;
+
+  /* Condiciones */
+  --nm:    #2ed573;
+  --lp:    #ffa502;
+  --mp:    #ff4757;
+  --nm-bg: rgba(46,213,115,0.08);
+  --lp-bg: rgba(255,165,2,0.08);
+  --mp-bg: rgba(255,71,87,0.08);
+
+  /* Grados PSA */
+  --psa10: #d4f53c;
+  --psa9:  #38bdf8;
+  --psa8:  #a78bfa;
+
+  /* Sellado */
+  --sealed:    #f59e0b;
+  --sealed-bg: rgba(245,158,11,0.08);
+
+  /* Tipografía — los var(--font-*) los inyecta layout.js vía next/font */
+  --font-display: var(--font-bebas, 'Bebas Neue'), sans-serif;
+  --font-mono:    var(--font-dm-mono, 'DM Mono'), monospace;
+  --font-body:    var(--font-plus-jakarta, 'Plus Jakarta Sans'), sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-border: var(--border);
+  --color-border2: var(--border2);
+  --color-accent: var(--accent);
+  --color-text: var(--text);
+  --color-text2: var(--text2);
+  --color-text3: var(--text3);
+  --color-nm: var(--nm);
+  --color-lp: var(--lp);
+  --color-mp: var(--mp);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== RESET ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ===== GRAIN OVERLAY ===== */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ===== BOTONES GLOBALES ===== */
+.btn-outline {
+  padding: 7px 16px;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  background: none;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-accent {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 5px;
+  background: var(--accent);
+  color: #08080d;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-accent:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
